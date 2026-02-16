@@ -1,65 +1,91 @@
-import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Home, MapPin, Search } from "lucide-react";
+import React from "react";
 
-export default function Home() {
+export default function HomePage() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div>
+      {/* Hero Section */}
+      <section className="relative overflow-hidden bg-gradient-to-b from-accent via-accent/50 to-background py-24 md:py-32 lg:py-40">
+        {/* Decorative Elements */}
+        <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
+          <div className="absolute -top-1/2 -right-1/4 w-[800px] h-[800px] rounded-full bg-primary/5 blur-3xl" />
+          <div className="absolute -bottom-1/2 -left-1/4 w-[600px] h-[600px] rounded-full bg-secondary/10 blur-3xl" />
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        <div className="relative">
+          <div className="max-w-3xl mx-auto text-center">
+            {/* Badge */}
+            <div className="inline-flex items-center gap-2 px-4 py-2  rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">
+              <Home className="h-4 w-4" aria-hidden="true" />
+              <span>Perfect for First-Time Buyers</span>
+            </div>
+
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-heading tracking-tight mb-6">
+              Find Your <span className="text-primary">Perfect Nest</span>
+            </h1>
+            <p className="text-lg md:text-xl text-muted-foreground mb-10 max-w-2xl mx-auto">
+              Making your first home journey simple and stress-free. Browse
+              curated properties, save your favorites, and connect with trusted
+              agents.
+            </p>
+
+            {/* Search Bar */}
+            <form
+              action="/properties"
+              method="GET"
+              className="flex flex-col sm:flex-row gap-3 max-w-2xl mx-auto"
+            >
+              <div className="flex-1 relative">
+                <label htmlFor="city-search" className="sr-only">
+                  Search by city, neighborhood, or ZIP code
+                </label>
+                <MapPin
+                  className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground"
+                  aria-hidden="true"
+                />
+                <Input
+                  id="city-search"
+                  name="city"
+                  placeholder="Enter city, neighborhood, or ZIP…"
+                  autoComplete="address-level2"
+                  className="h-14 pl-12 text-base"
+                />
+              </div>
+              <Button type="submit" size={"lg"} className="h-14 cursor-pointer">
+                <Search className="h-5 w-5" aria-hidden="true" />
+                <span className="ml-2">Search Properties</span>
+              </Button>
+            </form>
+
+            {/* Quick Stats */}
+            <div className="flex flex-wrap items-center justify-center gap-8 mt-12 text-sm text-muted-foreground">
+              <div className="flex items-center gap-2">
+                <div
+                  className="h-2 w-2 rounded-full bg-success"
+                  aria-hidden="true"
+                />
+                <span>1,000+ Active Listings</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div
+                  className="h-2 w-2 rounded-full bg-primary"
+                  aria-hidden="true"
+                />
+                <span>500+ Happy Homeowners</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div
+                  className="h-2 w-2 rounded-full bg-secondary"
+                  aria-hidden="true"
+                />
+                <span>50+ Trusted Agents</span>
+              </div>
+            </div>
+          </div>
         </div>
-      </main>
+      </section>
     </div>
   );
 }
