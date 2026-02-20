@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Inter, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
+import { Toaster } from "sonner";
 import { SanityLive } from "@/sanity/lib/live";
 
 // Body font - highly readable
@@ -87,6 +88,7 @@ export default function RootLayout({
           className={`${inter.variable} ${plusJakarta.variable} ${geistMono.variable} font-body antialiased bg-white`}
         >
           {children}
+          <Toaster />
           <SanityLive />
         </body>
       </html>

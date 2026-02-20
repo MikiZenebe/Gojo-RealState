@@ -1,13 +1,13 @@
 "use client";
 
-import { Property } from "@/types";
+import { Bath, Bed, Heart, MapPin, Square } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import type React from "react";
 import home from "@/public/home.jpg";
+import type { Property } from "@/types";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
-import { Heart } from "lucide-react";
 
 interface PropertyCardProps {
   property: Property;
@@ -48,7 +48,7 @@ export default function PropertyCard({
       <article className="bg-card text-card-foreground overflow-hidden  border border-border/50 shadow-warm transition-[transform,box-shadow] duration-300 hover:shadow-warm-lg hover:-translate-y-1">
         {/* Image Container */}
         <div className="relative aspect-4/3 overflow-hidden">
-          {!property?.image?.asset ? (
+          {property?.image?.asset ? (
             <Image
               src={home}
               alt={property?.title}
@@ -105,6 +105,60 @@ export default function PropertyCard({
                 aria-hidden="true"
               />
             </Button>
+          )}
+        </div>
+
+        {/* Content */}
+        <div className="p-5">
+          {/* Price */}
+          <div className="flex items-start justify-between gap-2 mb-2">
+            <h3 className="font-bold font-heading text-xl tabular-nums">
+              {/* {formatPrice(property.price)} */}
+              $2,500/mo
+            </h3>
+          </div>
+
+          {/* Title */}
+          <p className="text-sm text-muted-foreground line-clamp-1 mb-4 min-w-0">
+            {/* {property.title} */}
+            Title
+          </p>
+
+          {/* Property Stats */}
+          <div className="flex items-center gap-4 text-sm text-muted-foreground mb-4">
+            {property.bedrooms !== undefined && (
+              <div className="flex items-center gap-1.5">
+                <Bed className="h-4 w-4 flex-shrink-0" aria-hidden="true" />
+                <span className="tabular-nums">{property.bedrooms}</span>
+                <span className="sr-only sm:not-sr-only">&nbsp;beds</span>
+              </div>
+            )}
+            {property.bathrooms !== undefined && (
+              <div className="flex items-center gap-1.5">
+                <Bath className="h-4 w-4 flex-shrink-0" aria-hidden="true" />
+                <span className="tabular-nums">{property.bathrooms}</span>
+                <span className="sr-only sm:not-sr-only">&nbsp;baths</span>
+              </div>
+            )}
+            {property.squareFeet && (
+              <div className="flex items-center gap-1.5">
+                <Square className="h-4 w-4 flex-shrink-0" aria-hidden="true" />
+                <span className="tabular-nums">
+                  {property.squareFeet.toLocaleString()}
+                </span>
+                <span className="sr-only sm:not-sr-only">&nbsp;sqft</span>
+              </div>
+            )}
+          </div>
+
+          {/* Location */}
+          {property.address && (
+            <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
+              <MapPin className="h-4 w-4 flex-shrink-0" aria-hidden="true" />
+              <span className="line-clamp-1 min-w-0">
+                {property.address.city}, {property.address.state}
+              </span>
+            </div>
           )}
         </div>
       </article>
