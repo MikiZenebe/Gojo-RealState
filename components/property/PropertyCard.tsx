@@ -22,7 +22,7 @@ export default function PropertyCard({
   isSaved,
   showRemoveButton: _showRemoveButton,
 }: PropertyCardProps) {
-  const formatPrice = (price: number) => {
+  const _formatPrice = (price: number) => {
     return new Intl.NumberFormat("en-US", {
       style: "currency",
       currency: "USD",
@@ -113,8 +113,7 @@ export default function PropertyCard({
           {/* Price */}
           <div className="flex items-start justify-between gap-2 mb-2">
             <h3 className="font-bold font-heading text-xl tabular-nums">
-              {/* {formatPrice(property.price)} */}
-              $2,500/mo
+              {_formatPrice(property.price)}
             </h3>
           </div>
 

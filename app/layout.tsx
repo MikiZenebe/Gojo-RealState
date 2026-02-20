@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono, Inter, Plus_Jakarta_Sans } from "next/font/google";
+import { Geist_Mono, Inter, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "sonner";
