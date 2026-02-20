@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Inter, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
+import { SanityLive } from "@/sanity/lib/live";
 
 // Body font - highly readable
 const inter = Inter({
@@ -83,9 +84,10 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body
-          className={`${inter.variable} ${plusJakarta.variable} ${geistMono.variable} font-body antialiased bg-[#F8F8F8]`}
+          className={`${inter.variable} ${plusJakarta.variable} ${geistMono.variable} font-body antialiased bg-white`}
         >
           {children}
+          <SanityLive />
         </body>
       </html>
     </ClerkProvider>

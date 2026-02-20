@@ -1,9 +1,24 @@
+import PropertyGrid from "@/components/property/PropertyGrid";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Home, MapPin, Search } from "lucide-react";
-import React from "react";
+import { FEATURED_PROPERTIES_QUERY } from "@/lib/sanity/queries";
+import { sanityFetch } from "@/sanity/lib/live";
+import {
+  ArrowRight,
+  Heart,
+  Home,
+  MapPin,
+  Search,
+  Shield,
+  Users,
+} from "lucide-react";
+import Link from "next/link";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const { data: featuredProperties } = await sanityFetch({
+    query: FEATURED_PROPERTIES_QUERY,
+  });
+
   return (
     <div>
       {/* Hero Section */}
@@ -50,10 +65,14 @@ export default function HomePage() {
                   name="city"
                   placeholder="Enter city, neighborhood, or ZIP…"
                   autoComplete="address-level2"
-                  className="h-14 pl-12 text-base"
+                  className="h-14 pl-12 text-base rounded-none"
                 />
               </div>
-              <Button type="submit" size={"lg"} className="h-14 cursor-pointer">
+              <Button
+                type="submit"
+                size={"lg"}
+                className="h-14 cursor-pointer rounded-none"
+              >
                 <Search className="h-5 w-5" aria-hidden="true" />
                 <span className="ml-2">Search Properties</span>
               </Button>
@@ -81,6 +100,260 @@ export default function HomePage() {
                   aria-hidden="true"
                 />
                 <span>50+ Trusted Agents</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Listings */}
+      <section className="py-20 md:py-28 bg-accent/20">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
+            <div>
+              <h2 className="text-3xl md:text-4xl font-bold font-heading">
+                Featured Properties
+              </h2>
+              <p className="text-muted-foreground mt-2">
+                {" "}
+                Hand-picked homes curated just for you
+              </p>
+            </div>
+            <Button variant="outline" asChild className="w-fit rounded-none">
+              <Link href="/properties">
+                {" "}
+                View All Properties{" "}
+                <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+              </Link>
+            </Button>
+          </div>
+
+          {featuredProperties && featuredProperties.length === 0 ? (
+            <PropertyGrid properties={featuredProperties} />
+          ) : (
+            <div className="text-center py-16 bg-accent/50 rounded-2xl border border-border/50">
+              <Home
+                className="h-12 w-12 text-muted-foreground mx-auto mb-4"
+                aria-hidden="true"
+              />
+              <p className="text-muted-foreground text-lg">
+                No featured properties available at the moment.
+              </p>
+              <Button variant="outline" asChild className="mt-4 rounded-none">
+                <Link href="/properties">Browse All Properties</Link>
+              </Button>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* How It Works */}
+      <section className="py-20 md:py-28  bg-accent/20">
+        <div className="">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold font-heading">
+              How Nestwell Works
+            </h2>
+            <p className="text-muted-foreground mt-3 max-w-2xl mx-auto">
+              Finding your first home has never been easier. Follow these simple
+              steps to start your journey.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12 mx-12">
+            {/* Step 1 */}
+            <div className="relative text-center group bg-accent/50 p-5">
+              <div className="w-20 h-20 bg-background border-2 border-primary/20 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-warm transition-[transform,box-shadow] duration-300 group-hover:-translate-y-1 group-hover:shadow-warm-md group-hover:border-primary/40">
+                <Search className="h-9 w-9 text-primary" aria-hidden="true" />
+              </div>
+
+              <span className="inline-block px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mb-3">
+                Step 1
+              </span>
+              <h3 className="text-xl font-semibold font-heading mb-3">
+                Search Properties
+              </h3>
+              <p className="text-muted-foreground">
+                Browse our curated catalog with advanced filters, map view, and
+                neighborhood insights.
+              </p>
+            </div>
+
+            {/* Step 2 */}
+            <div className="relative text-center group bg-accent/50 p-5">
+              <div className="w-20 h-20 bg-background border-2 border-primary/20 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-warm transition-[transform,box-shadow] duration-300 group-hover:-translate-y-1 group-hover:shadow-warm-md group-hover:border-primary/40">
+                <Heart className="h-9 w-9 text-primary" aria-hidden="true" />
+              </div>
+              <span className="inline-block px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mb-3">
+                Step 2
+              </span>
+              <h3 className="text-xl font-semibold font-heading mb-3">
+                Save Favorites
+              </h3>
+              <p className="text-muted-foreground">
+                Save properties you love and compare them side by side to find
+                your perfect match.
+              </p>
+            </div>
+
+            {/* Step 3 */}
+            <div className="relative text-center group bg-accent/50 p-5">
+              <div className="w-20 h-20 bg-background border-2 border-primary/20 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-warm transition-[transform,box-shadow] duration-300 group-hover:-translate-y-1 group-hover:shadow-warm-md group-hover:border-primary/40">
+                <Users className="h-9 w-9 text-primary" aria-hidden="true" />
+              </div>
+              <span className="inline-block px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mb-3">
+                Step 3
+              </span>
+              <h3 className="text-xl font-semibold font-heading mb-3">
+                Connect with Agents
+              </h3>
+              <p className="text-muted-foreground">
+                Reach out to trusted agents, schedule viewings, and get expert
+                guidance throughout your journey.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Trust Section */}
+      <section className="py-20 md:py-28">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            <div>
+              <span className="inline-block px-3 py-1 rounded-full bg-secondary/10 text-secondary-foreground text-sm font-medium mb-4">
+                Why Choose Nestwell
+              </span>
+              <h2 className="text-3xl md:text-4xl font-bold font-heading mb-6">
+                Built for First-Time Homebuyers
+              </h2>
+              <p className="text-lg text-muted-foreground mb-8">
+                We understand that buying your first home can be overwhelming.
+                That&apos;s why we&apos;ve designed Nestwell to make the process
+                as simple and stress-free as possible.
+              </p>
+
+              <div className="space-y-6">
+                <div className="flex gap-4">
+                  <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+                    <Shield
+                      className="h-6 w-6 text-primary"
+                      aria-hidden="true"
+                    />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold font-heading mb-1">
+                      Verified Listings
+                    </h3>
+                    <p className="text-muted-foreground text-sm">
+                      Every property is verified by our team to ensure accuracy
+                      and quality.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex gap-4">
+                  <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-secondary/10 flex items-center justify-center">
+                    <Users
+                      className="h-6 w-6 text-secondary"
+                      aria-hidden="true"
+                    />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold font-heading mb-1">
+                      Trusted Agents
+                    </h3>
+                    <p className="text-muted-foreground text-sm">
+                      Connect with experienced agents who specialize in helping
+                      first-time buyers.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex gap-4">
+                  <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+                    <Heart
+                      className="h-6 w-6 text-primary"
+                      aria-hidden="true"
+                    />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold font-heading mb-1">
+                      Personalized Experience
+                    </h3>
+                    <p className="text-muted-foreground text-sm">
+                      Save favorites, get recommendations, and track your home
+                      search journey.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Stats Card */}
+            <div className="bg-gradient-to-br from-primary to-primary/80 rounded-3xl p-8 md:p-12 text-primary-foreground">
+              <h3 className="text-2xl md:text-3xl font-bold font-heading mb-8">
+                Trusted by Thousands
+              </h3>
+              <div className="grid grid-cols-2 gap-8">
+                <div>
+                  <div className="text-4xl md:text-5xl font-bold tabular-nums mb-2">
+                    500+
+                  </div>
+                  <p className="text-primary-foreground/80">Happy Homeowners</p>
+                </div>
+                <div>
+                  <div className="text-4xl md:text-5xl font-bold tabular-nums mb-2">
+                    1,000+
+                  </div>
+                  <p className="text-primary-foreground/80">Active Listings</p>
+                </div>
+                <div>
+                  <div className="text-4xl md:text-5xl font-bold tabular-nums mb-2">
+                    50+
+                  </div>
+                  <p className="text-primary-foreground/80">Trusted Agents</p>
+                </div>
+                <div>
+                  <div className="text-4xl md:text-5xl font-bold tabular-nums mb-2">
+                    4.9
+                  </div>
+                  <p className="text-primary-foreground/80">Average Rating</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA - Become an Agent */}
+      <section className="py-20 md:py-28 bg-accent/20">
+        <div className="container mx-auto px-4">
+          <div className="bg-gradient-to-r from-secondary/90 to-secondary rounded-3xl p-8 md:p-12 lg:p-16">
+            <div className="max-w-3xl">
+              <h2 className="text-3xl md:text-4xl font-bold font-heading mb-4 text-secondary-foreground">
+                Are You a Real Estate Agent?
+              </h2>
+              <p className="text-lg text-secondary-foreground/80 mb-8">
+                Join our platform to list properties, connect with motivated
+                buyers, and grow your business. Get started with our agent
+                subscription today.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Button size="lg" asChild>
+                  <Link href="/pricing">
+                    View Pricing Plans
+                    <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+                  </Link>
+                </Button>
+                <Button
+                  size="lg"
+                  variant="outline"
+                  asChild
+                  className="bg-background/10 border-secondary-foreground/20 text-secondary-foreground hover:bg-background/20"
+                >
+                  <Link href="/dashboard">Go to Agent Dashboard</Link>
+                </Button>
               </div>
             </div>
           </div>
