@@ -50,14 +50,14 @@ export default function PropertyCard({
         <div className="relative aspect-4/3 overflow-hidden">
           {property?.image?.asset ? (
             <Image
-              src={home}
+              src={property?.image?.asset?.url}
               alt={property?.title}
               fill
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
               className="object-cover transition-transform duration-500 group-hover:scale-105"
             />
           ) : (
-            <div className="bg-gray-200 w-full h-48 flex items-center justify-center">
+            <div className="bg-gray-200 w-full h-full flex items-center justify-center">
               <span className="text-gray-500">No Image</span>
             </div>
           )}
@@ -66,27 +66,27 @@ export default function PropertyCard({
           <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
           {/* Status Badge */}
-          {!statusLabel && (
+          {statusLabel && (
             <Badge
-              //   variant={property.status === "sold" ? "destructive" : "muted"}
+              variant={property.status === "sold" ? "destructive" : "secondary"}
               className="absolute top-3 left-3 shadow-sm"
             >
-              Sold
+              {statusLabel}
             </Badge>
           )}
 
           {/* Property Type Badge */}
-          {!property?.propertyType && (
+          {property?.propertyType && (
             <Badge
               variant="secondary"
               className="absolute bottom-3 left-3 capitalize shadow-sm bg-background/90 backdrop-blur-sm"
             >
-              Property Type
+              {property.propertyType}
             </Badge>
           )}
 
           {/* Save Button */}
-          {!onSave && (
+          {onSave && (
             <Button
               variant="ghost"
               size="icon"
@@ -119,8 +119,7 @@ export default function PropertyCard({
 
           {/* Title */}
           <p className="text-sm text-muted-foreground line-clamp-1 mb-4 min-w-0">
-            {/* {property.title} */}
-            Title
+            {property.title}
           </p>
 
           {/* Property Stats */}
@@ -143,7 +142,7 @@ export default function PropertyCard({
               <div className="flex items-center gap-1.5">
                 <Square className="h-4 w-4 flex-shrink-0" aria-hidden="true" />
                 <span className="tabular-nums">
-                  {property.squareFeet.toLocaleString()}
+                  {property.squareFeet.toLocaleString()} ft²
                 </span>
                 <span className="sr-only sm:not-sr-only">&nbsp;sqft</span>
               </div>

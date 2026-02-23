@@ -1,8 +1,3 @@
-import PropertyGrid from "@/components/property/PropertyGrid";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { FEATURED_PROPERTIES_QUERY } from "@/lib/sanity/queries";
-import { sanityFetch } from "@/sanity/lib/live";
 import {
   ArrowRight,
   Heart,
@@ -13,11 +8,18 @@ import {
   Users,
 } from "lucide-react";
 import Link from "next/link";
+import PropertyGrid from "@/components/property/PropertyGrid";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { FEATURED_PROPERTIES_QUERY } from "@/lib/sanity/queries";
+import { sanityFetch } from "@/sanity/lib/live";
 
 export default async function HomePage() {
   const { data: featuredProperties } = await sanityFetch({
     query: FEATURED_PROPERTIES_QUERY,
   });
+
+  console.log(featuredProperties);
 
   return (
     <div>
@@ -128,7 +130,7 @@ export default async function HomePage() {
             </Button>
           </div>
 
-          {featuredProperties && featuredProperties.length === 0 ? (
+          {featuredProperties && featuredProperties.length > 0 ? (
             <PropertyGrid properties={featuredProperties} />
           ) : (
             <div className="text-center py-16 bg-accent/50 rounded-2xl border border-border/50">
