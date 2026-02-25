@@ -50,7 +50,7 @@ export default function Navbar() {
               />
             </div>
             <span className="text-xl font-bold font-heading tracking-tight">
-              Gojo
+              GoJo
             </span>
           </Link>
 
@@ -181,7 +181,7 @@ export default function Navbar() {
                       aria-hidden="true"
                     />
                   </div>
-                  <span className="font-heading">Nestwell</span>
+                  <span className="font-heading">GoJo</span>
                 </SheetTitle>
               </SheetHeader>
               <nav
