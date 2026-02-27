@@ -92,3 +92,69 @@ export const PROPERTIES_COUNT_QUERY = defineQuery(/* groq */ `
     && ($amenitiesCount == 0 || count((amenities)[@ in $amenities]) == $amenitiesCount)
   ])
 `);
+
+// Single property with agent details
+export const PROPERTY_DETAIL_QUERY = defineQuery(/* groq */ `
+  *[_type == "property" && _id == $id][0] {
+    _id,
+    title,
+    description,
+    price,
+    propertyType,
+    status,
+    bedrooms,
+    bathrooms,
+    squareFeet,
+    yearBuilt,
+    address,
+    location,
+    images[] { ${imageFragment} },
+    amenities,
+    agent-> {
+      _id,
+      userId,
+      name,
+      email,
+      phone,
+      photo { ${imageFragment} },
+      bio,
+      agency
+    }
+  }
+`);
+
+// Get agent by user ID
+export const AGENT_BY_USER_ID_QUERY = defineQuery(/* groq */ `
+  *[_type == "agent" && userId == $userId][0] {
+    _id,
+    userId,
+    name,
+    email,
+    onboardingComplete
+  }
+`);
+
+// User with saved IDs
+export const USER_SAVED_IDS_QUERY = defineQuery(/* groq */ `
+  *[_type == "user" && clerkId == $clerkId][0]{ _id, "savedIds": savedListings[]._ref }
+`);
+
+// Lead with agent ref (for ownership verification)
+export const LEAD_AGENT_REF_QUERY = defineQuery(/* groq */ `
+  *[_type == "lead" && _id == $leadId][0]{ agent }
+`);
+
+// Agent ID lookup by user ID (for actions)
+export const AGENT_ID_BY_USER_QUERY = defineQuery(/* groq */ `
+  *[_type == "agent" && userId == $userId][0]{ _id }
+`);
+
+// Check if lead exists for property/email
+export const LEAD_EXISTS_QUERY = defineQuery(/* groq */ `
+  *[_type == "lead" && property._ref == $propertyId && buyerEmail == $email][0]{ _id }
+`);
+
+// User contact info for leads
+export const USER_CONTACT_QUERY = defineQuery(/* groq */ `
+  *[_type == "user" && clerkId == $clerkId][0]{ name, email, phone }
+`);
