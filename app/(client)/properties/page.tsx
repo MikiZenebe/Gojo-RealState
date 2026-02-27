@@ -8,6 +8,7 @@ import {
 import type { Metadata } from "next";
 import Link from "next/link";
 import React, { Suspense } from "react";
+import { DynamicMapView } from "@/components/map/DynamicMapView";
 import PropertyGrid from "@/components/property/PropertyGrid";
 import FilterSidebar from "@/components/property/‎FilterSidebar";
 import { Button } from "@/components/ui/button";
@@ -301,8 +302,7 @@ export default async function PropertiesPage({
 
               <TabsContent value="map" className="mt-0">
                 <div className="h-[600px] rounded-2xl overflow-hidden border border-border/50 shadow-warm">
-                  {/* <DynamicMapView properties={properties || []} /> */} Map
-                  View
+                  <DynamicMapView properties={properties || []} /> View
                 </div>
               </TabsContent>
             </Tabs>
