@@ -163,3 +163,21 @@ export const LEAD_EXISTS_QUERY = defineQuery(/* groq */ `
 export const USER_CONTACT_QUERY = defineQuery(/* groq */ `
   *[_type == "user" && clerkId == $clerkId][0]{ name, email, phone }
 `);
+
+// User's saved listings
+export const USER_SAVED_LISTINGS_QUERY = defineQuery(/* groq */ `
+  *[_type == "user" && clerkId == $clerkId][0] {
+    savedListings[]-> {
+      _id,
+      title,
+      "slug": slug.current,
+      price,
+      bedrooms,
+      bathrooms,
+      squareFeet,
+      address,
+      "image": images[0] { ${imageFragment} },
+      status
+    }
+  }.savedListings
+`);
