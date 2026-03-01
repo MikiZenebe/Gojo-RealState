@@ -1,12 +1,62 @@
 "use server";
 
-import { auth, clerkClient } from "@clerk/nextjs/server";
+import { auth, clerkClient, currentUser } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
 import {
   AGENT_BY_USER_ID_QUERY,
+  USER_EXISTS_QUERY,
   USER_SAVED_IDS_QUERY,
 } from "@/lib/sanity/queries";
 import { client } from "@/sanity/lib/client";
 import { sanityFetch } from "@/sanity/lib/live";
+import type { UserOnboardingData } from "@/types";
+
+export async function completeUserOnboarding(data: UserOnboardingData) {
+  const { userId } = await auth();
+
+  if (!userId) {
+    throw new Error("Not authenticated");
+  }
+
+  const clerkUser = await currentUser();
+  const email = clerkUser?.emailAddresses[0]?.emailAddress || data.email;
+
+  // Check if user already exists
+  const { data: existingUser } = await sanityFetch({
+    query: USER_EXISTS_QUERY,
+    params: { clerkId: userId },
+  });
+
+  if (existingUser) {
+    // Update existing user
+    await client
+      .patch(existingUser._id)
+      .set({
+        name: data.name,
+        phone: data.phone,
+      })
+      .commit();
+  } else {
+    // Create new user document
+    await client.create({
+      _type: "user",
+      clerkId: userId,
+      name: data.name,
+      email: email,
+      phone: data.phone,
+      savedListings: [],
+      createdAt: new Date().toISOString(),
+    });
+  }
+
+  // Mark onboarding complete in Clerk metadata
+  const clerk = await clerkClient();
+  await clerk.users.updateUser(userId, {
+    publicMetadata: { onboardingComplete: true },
+  });
+
+  redirect("/");
+}
 
 async function ensureOnboardingCompleteForSave(userId: string) {
   const clerk = await clerkClient();

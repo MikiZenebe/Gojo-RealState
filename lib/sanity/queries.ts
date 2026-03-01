@@ -134,6 +134,11 @@ export const AGENT_BY_USER_ID_QUERY = defineQuery(/* groq */ `
   }
 `);
 
+// Check if user exists (for onboarding detection)
+export const USER_EXISTS_QUERY = defineQuery(/* groq */ `
+  *[_type == "user" && clerkId == $clerkId][0]{ _id }
+`);
+
 // User with saved IDs
 export const USER_SAVED_IDS_QUERY = defineQuery(/* groq */ `
   *[_type == "user" && clerkId == $clerkId][0]{ _id, "savedIds": savedListings[]._ref }
