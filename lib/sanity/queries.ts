@@ -193,3 +193,8 @@ export const USER_PROFILE_QUERY = defineQuery(/* groq */ `
     createdAt
   }
 `);
+
+// Agent onboarding check (minimal)
+export const AGENT_ONBOARDING_CHECK_QUERY = defineQuery(/* groq */ `
+  *[_type == "agent" && userId == $userId][0]{ _id, onboardingComplete }
+`);
