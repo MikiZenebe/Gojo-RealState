@@ -44,7 +44,7 @@ export default async function OnboardingPage() {
   return (
     <div className="container mx-auto max-w-md py-16">
       <div className="text-center mb-8">
-        <h1 className="text-3xl font-bold mb-2">Welcome to HomeFind!</h1>
+        <h1 className="text-3xl font-bold mb-2">Welcome to GoJo!</h1>
         <p className="text-muted-foreground">
           Let's set up your profile to get started.
         </p>

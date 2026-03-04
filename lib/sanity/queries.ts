@@ -181,3 +181,15 @@ export const USER_SAVED_LISTINGS_QUERY = defineQuery(/* groq */ `
     }
   }.savedListings
 `);
+
+// User profile
+export const USER_PROFILE_QUERY = defineQuery(/* groq */ `
+  *[_type == "user" && clerkId == $clerkId][0] {
+    _id,
+    name,
+    email,
+    phone,
+    photo { ${imageFragment} },
+    createdAt
+  }
+`);

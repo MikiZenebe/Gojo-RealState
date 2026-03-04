@@ -34,7 +34,7 @@ export default async function SavedListingsPage() {
           title="No saved listings yet"
           description="Start browsing properties and save your favorites here."
           action={
-            <Button asChild className="w-1/2 mx-auto">
+            <Button asChild className="w-1/2 mx-auto cursor-pointer">
               <Link href="/properties">Browse Properties</Link>
             </Button>
           }

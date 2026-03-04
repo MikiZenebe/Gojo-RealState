@@ -9,7 +9,7 @@ import {
 } from "@/lib/sanity/queries";
 import { client } from "@/sanity/lib/client";
 import { sanityFetch } from "@/sanity/lib/live";
-import type { UserOnboardingData } from "@/types";
+import type { UserOnboardingData, UserProfileData } from "@/types";
 
 export async function completeUserOnboarding(data: UserOnboardingData) {
   const { userId } = await auth();
@@ -109,6 +109,31 @@ async function ensureOnboardingCompleteForSave(userId: string) {
   }
 
   return null;
+}
+
+export async function updateUserProfile(data: UserProfileData) {
+  const { userId } = await auth();
+
+  if (!userId) {
+    throw new Error("Not authenticated");
+  }
+
+  const { data: user } = await sanityFetch({
+    query: USER_EXISTS_QUERY,
+    params: { clerkId: userId },
+  });
+
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  await client
+    .patch(user._id)
+    .set({
+      name: data.name,
+      phone: data.phone,
+    })
+    .commit();
 }
 
 export async function toggleSavedListing(
