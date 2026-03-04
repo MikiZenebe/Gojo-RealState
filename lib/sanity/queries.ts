@@ -198,3 +198,27 @@ export const USER_PROFILE_QUERY = defineQuery(/* groq */ `
 export const AGENT_ONBOARDING_CHECK_QUERY = defineQuery(/* groq */ `
   *[_type == "agent" && userId == $userId][0]{ _id, onboardingComplete }
 `);
+
+// Agent with onboarding status (for dashboard)
+export const AGENT_DASHBOARD_QUERY = defineQuery(/* groq */ `
+  *[_type == "agent" && userId == $userId][0]{ _id, name, onboardingComplete }
+`);
+
+// ============================================
+// Dashboard Stats Queries
+// ============================================
+
+// Count properties by agent
+export const DASHBOARD_LISTINGS_COUNT_QUERY = defineQuery(/* groq */ `
+  count(*[_type == "property" && agent._ref == $agentId])
+`);
+
+// Count all leads by agent
+export const DASHBOARD_LEADS_COUNT_QUERY = defineQuery(/* groq */ `
+  count(*[_type == "lead" && agent._ref == $agentId])
+`);
+
+// Count new leads by agent
+export const DASHBOARD_NEW_LEADS_COUNT_QUERY = defineQuery(/* groq */ `
+  count(*[_type == "lead" && agent._ref == $agentId && status == "new"])
+`);
