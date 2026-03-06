@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -32,6 +33,10 @@ export default async function DashboardPage() {
     query: AGENT_DASHBOARD_QUERY,
     params: { userId },
   });
+
+  if (!agent) {
+    redirect("/dashboard/onboarding");
+  }
 
   // Get stats
   const [

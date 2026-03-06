@@ -1,7 +1,10 @@
 import { auth } from "@clerk/nextjs/server";
-import { MoreHorizontal, Pencil, Plus } from "lucide-react";
+import { Eye, MoreHorizontal, Pencil, Plus } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { redirect } from "next/navigation";
+import { DeleteListingButton } from "@/components/dashboard/DeleteListingButton";
+import { ListingStatusSelect } from "@/components/dashboard/ListingStatusSelect";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -36,6 +39,10 @@ export default async function ListingsPage() {
     query: AGENT_ID_BY_USER_QUERY,
     params: { userId },
   });
+
+  if (!agent) {
+    redirect("/dashboard/onboarding");
+  }
 
   const { data: listings } = await sanityFetch({
     query: AGENT_LISTINGS_QUERY,
@@ -118,10 +125,10 @@ export default async function ListingsPage() {
                     {formatPrice(listing.price)}
                   </TableCell>
                   <TableCell>
-                    {/* <ListingStatusSelect
+                    <ListingStatusSelect
                       listingId={listing._id}
                       currentStatus={listing.status}
-                    /> */}
+                    />
                   </TableCell>
                   <TableCell className="text-muted-foreground">
                     {listing.bedrooms} beds • {listing.bathrooms} baths
@@ -144,10 +151,13 @@ export default async function ListingsPage() {
                           </Link>
                         </DropdownMenuItem>
                         <DropdownMenuItem asChild>
-                          <Link href={`/properties/${listing._id}`}>View</Link>
+                          <Link href={`/dashboard/listings/${listing._id}`}>
+                            <Eye className="h-4 w-4 mr-2" />
+                            View
+                          </Link>
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
-                        {/* <DeleteListingButton listingId={listing._id} /> */}
+                        <DeleteListingButton listingId={listing._id} />
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </TableCell>

@@ -1,6 +1,8 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { isRedirectError } from "next/dist/client/components/redirect-error";
+import Link from "next/link";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -59,14 +61,15 @@ const formSchema = z.object({
   bedrooms: z.coerce.number().min(0),
   bathrooms: z.coerce.number().min(0),
   squareFeet: z.coerce.number().min(0),
-  yearBuilt: z.coerce
-    .number()
-    .min(1800)
-    .max(new Date().getFullYear())
+  yearBuilt: z
+    .union([
+      z.coerce.number().min(1800).max(new Date().getFullYear()),
+      z.literal("").transform(() => undefined),
+    ])
     .optional(),
   // Address fields are still stored but auto-filled from autocomplete
   street: z.string().min(1, "Address is required"),
-  city: z.string().min(1, "City is required"),
+  city: z.string(),
   state: z.string().min(1, "State is required"),
   zipCode: z.string().min(1, "ZIP code is required"),
   amenities: z.array(z.string()).optional(),
@@ -242,10 +245,26 @@ export default function ListingForm({
           await createListing(formData);
           toast.success("Listing created successfully");
         }
-      } catch (_error) {
+      } catch (error) {
+        if (isRedirectError(error)) {
+          throw error;
+        }
         toast.error("Failed to save listing");
+        console.log(error);
       }
     });
+  };
+
+  const onError = (errors: any) => {
+    console.error("Form validation errors:", errors);
+    toast.error("Please fill in all required fields correctly.");
+
+    // Specifically check if address is missing
+    if (errors.street || errors.city || errors.state || errors.zipCode) {
+      toast.error("Please select a valid address from the suggestions.", {
+        duration: 5000,
+      });
+    }
   };
 
   // Watch for validation errors on address fields to show in autocomplete
@@ -258,7 +277,10 @@ export default function ListingForm({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+      <form
+        onSubmit={form.handleSubmit(onSubmit, onError)}
+        className="space-y-6"
+      >
         <Card>
           <CardHeader>
             <CardTitle>Basic Information</CardTitle>
@@ -606,7 +628,7 @@ export default function ListingForm({
 
         <div className="flex justify-end gap-4">
           <Button type="button" variant="outline" asChild>
-            <a href="/dashboard/listings">Cancel</a>
+            <Link href="/dashboard/listings">Cancel</Link>
           </Button>
           <LoadingButton
             type="submit"
