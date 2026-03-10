@@ -80,7 +80,7 @@ export default async function ListingsPage() {
         }
       />
 
-      {listings && listings.length > 1 ? (
+      {listings && listings.length > 0 ? (
         <div className="border rounded-lg">
           <Table>
             <TableHeader>

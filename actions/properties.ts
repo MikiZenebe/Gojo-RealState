@@ -1,6 +1,7 @@
 "use server";
 
 import { auth } from "@clerk/nextjs/server";
+import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 import {
@@ -96,6 +97,7 @@ export async function createListing(data: ListingFormDataWithImages) {
     updatedAt: new Date().toISOString(),
   });
 
+  revalidatePath("/dashboard/listings");
   redirect("/dashboard/listings");
 }
 
@@ -150,6 +152,10 @@ export async function updateListing(
       updatedAt: new Date().toISOString(),
     })
     .commit();
+
+  revalidatePath("/dashboard/listings");
+  revalidatePath(`/dashboard/listings/${listingId}`);
+  revalidatePath(`/properties/${listingId}`);
 }
 
 export async function updateListingStatus(
@@ -188,6 +194,10 @@ export async function updateListingStatus(
       updatedAt: new Date().toISOString(),
     })
     .commit();
+
+  revalidatePath("/dashboard/listings");
+  revalidatePath(`/dashboard/listings/${listingId}`);
+  revalidatePath(`/properties/${listingId}`);
 }
 
 export async function deleteListing(listingId: string) {
@@ -217,4 +227,6 @@ export async function deleteListing(listingId: string) {
   }
 
   await client.delete(listingId);
+
+  revalidatePath("/dashboard/listings");
 }
