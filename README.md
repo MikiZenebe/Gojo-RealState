@@ -1,36 +1,35 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
 
-First, run the development server:
+## 🏠 GoJo - Find Your Perfect Home
+![License](https://img.shields.io/badge/License-CC_BY--NC_4.0-lightgrey)
+![Next.js](https://img.shields.io/badge/Next.js-16-black)
+![React](https://img.shields.io/badge/React-19-blue)
+![Sanity CMS](https://img.shields.io/badge/Sanity-CMS-red)
+![Clerk](https://img.shields.io/badge/Clerk-Auth_+_Billing-purple)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)
+![Tailwind](https://img.shields.io/badge/Tailwind-CSS_4-38B2AC)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+A modern real estate platform that makes buying your first home simple and stress-free.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 🎯 Who is this for?
+First-time homebuyers looking for a clean, intuitive property search experience, **AND** real estate agents who want to list properties, manage leads, and grow their business.
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+### ⚡ What problem does it solve?
+Traditional real estate platforms are cluttered and overwhelming.  
+This platform provides a **clean, modern interface with real-time updates, interactive maps, and a seamless agent subscription system.**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 🔥 Technical highlights
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Real-time content with **Sanity Live** (no page refreshes!)
+- **Sanity Studio** as your super admin dashboard
+- **Clerk Billing** integration (no webhooks needed)
+- Interactive **Leaflet Map** with property markers
+- Type-safe schemas with auto-generated **TypeScript**
+- **Server Actions + Server Components** for optimal performance
+- **React 19 + React Compiler** for blazing fast renders
