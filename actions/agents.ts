@@ -2,10 +2,13 @@
 
 import { auth, clerkClient, currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
-import { AGENT_ID_BY_USER_QUERY } from "@/lib/sanity/queries";
+import {
+  AGENT_BY_USER_ID_QUERY,
+  AGENT_ID_BY_USER_QUERY,
+} from "@/lib/sanity/queries";
 import { client } from "@/sanity/lib/client";
 import { sanityFetch } from "@/sanity/lib/live";
-import type { AgentOnboardingData } from "@/types";
+import type { AgentOnboardingData, AgentProfileData } from "@/types";
 
 /**
  * Creates an agent document for a user who has subscribed to the agent plan.
@@ -93,4 +96,40 @@ export async function completeAgentOnboarding(data: AgentOnboardingData) {
   });
 
   redirect("/dashboard");
+}
+
+export async function updateAgentProfile(data: AgentProfileData) {
+  const { userId } = await auth();
+
+  if (!userId) {
+    throw new Error("Not authenticated");
+  }
+
+  const { data: agent } = await sanityFetch({
+    query: AGENT_ID_BY_USER_QUERY,
+    params: { userId },
+  });
+
+  if (!agent) {
+    throw new Error("Agent not found");
+  }
+
+  await client
+    .patch(agent._id)
+    .set({
+      bio: data.bio,
+      phone: data.phone,
+      licenseNumber: data.licenseNumber,
+      agency: data.agency || "",
+    })
+    .commit();
+}
+
+export async function getAgentByUserId(userId: string) {
+  const { data: agent } = await sanityFetch({
+    query: AGENT_BY_USER_ID_QUERY,
+    params: { userId },
+  });
+
+  return agent;
 }
